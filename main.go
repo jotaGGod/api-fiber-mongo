@@ -20,21 +20,4 @@ func main() {
 	}
 }
 
-// testes automatiza:
-// teste unitario testar funções (Stack)
 
-//----------------------------------
-// testes
-/*
-func TestViewAccount(t *testing.T) {
-	app := fiber.New()
-	app.Get("/account", viewAccount)
-
-	req := httptest.NewRequest(http.MethodGet, "/account", nil)
-	resp, err := app.Test(req)
-	assert.NoError(t, err)
-	assert.Equal(t, http.StatusOK, resp.StatusCode)
-
-	defer resp.Body.Close()
-}
-*/
