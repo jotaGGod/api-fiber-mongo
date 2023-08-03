@@ -1,0 +1,10 @@
+mode: set
+api-fiber-mongo/service/bank-service.go:8.37,10.2 1 1
+api-fiber-mongo/service/bank-service.go:12.58,14.2 1 0
+api-fiber-mongo/service/bank-service.go:16.60,18.2 1 0
+api-fiber-mongo/service/bank-service.go:20.58,22.2 1 0
+api-fiber-mongo/service/bank-service.go:24.50,26.34 2 1
+api-fiber-mongo/service/bank-service.go:26.34,27.41 1 1
+api-fiber-mongo/service/bank-service.go:27.41,28.24 1 1
+api-fiber-mongo/service/bank-service.go:28.24,31.5 2 0
+api-fiber-mongo/service/bank-service.go:34.2,34.8 1 1
