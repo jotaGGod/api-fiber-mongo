@@ -2,17 +2,9 @@ package mock
 
 import "api-fiber-mongo/entity"
 
-type MockAccountRepository struct{}
+type MAccountRepository struct{}
 
-func (m MockAccountRepository) GetAccountDb() entity.Account {
-	return entity.Account{
-		ID:      "1",
-		Name:    "jack",
-		Balance: 1000,
-	}
-}
-
-func (m MockAccountRepository) MakeDepositDb(conta *entity.Account) *entity.Account {
+func (m *MAccountRepository) GetAccountDb(id string) *entity.Account {
 	return &entity.Account{
 		ID:      "1",
 		Name:    "jack",
@@ -20,7 +12,15 @@ func (m MockAccountRepository) MakeDepositDb(conta *entity.Account) *entity.Acco
 	}
 }
 
-func (m MockAccountRepository) CreateAccount(conta *entity.Account) *entity.Account {
+func (m *MAccountRepository) MakeDepositDb(conta *entity.Account) *entity.Account {
+	return &entity.Account{
+		ID:      "1",
+		Name:    "jack",
+		Balance: 1000,
+	}
+}
+
+func (m *MAccountRepository) CreateAccount(conta *entity.Account) *entity.Account {
 	return &entity.Account{
 		ID:      "2",
 		Name:    "Don",
@@ -28,7 +28,7 @@ func (m MockAccountRepository) CreateAccount(conta *entity.Account) *entity.Acco
 	}
 }
 
-func (m MockAccountRepository) MakeWithdrawDb(conta *entity.Account) *entity.Account {
+func (m *MAccountRepository) MakeWithdrawDb(conta *entity.Account) *entity.Account {
 	return &entity.Account{
 		ID:      "1",
 		Name:    "jack",

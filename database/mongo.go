@@ -30,3 +30,7 @@ func ConfigureMongo() {
 
 	fmt.Println("Connected to MongoDB!")
 }
+
+func GetCollection(collectionName string) *mongo.Collection {
+	return MongoDB.Database("Banco-Atlas").Collection(collectionName)
+}

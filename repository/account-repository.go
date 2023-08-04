@@ -9,41 +9,40 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-var AccountRepository IAccountRepository = &accountRepository{}
+var AccountRepository IAccountRepository = &accountRepository{CollectionName: "userAccount"}
 
 type IAccountRepository interface {
-	GetAccountDb() entity.Account
+	GetAccountDb(id string) *entity.Account
 	MakeDepositDb(conta *entity.Account) *entity.Account
 	CreateAccount(conta *entity.Account) *entity.Account
 	MakeWithdrawDb(conta *entity.Account) *entity.Account
 }
 
 type accountRepository struct {
-	ID      string
-	Name    string
-	Balance int
+	CollectionName string
 }
 
-func (repo accountRepository) GetAccountDb() entity.Account {
-	database := database.MongoDB.Database("Banco-Atlas").Collection("userAccount")
+func (repo *accountRepository) GetAccountDb(id string) *entity.Account {
+	collection := database.GetCollection(repo.CollectionName)
 
 	var conta entity.Account
 
-	if err := database.FindOne(context.TODO(), bson.M{"id": "1"}).Decode(&conta); err != nil {
+	if err := collection.FindOne(context.TODO(), bson.M{"id": id}).Decode(&conta); err != nil {
 		log.Println(err.Error())
+		return nil
 	}
 
-	return conta
+	return &conta
 }
 
 func (repo *accountRepository) MakeDepositDb(conta *entity.Account) *entity.Account { //Realiza a alteração e realização de depósito no db
-	database := database.MongoDB.Database("Banco-Atlas").Collection("userAccount")
+	collection := database.GetCollection(repo.CollectionName)
 
 	update := bson.M{
 		"$set": bson.M{"balance": conta.Balance},
 	}
 
-	if _, err := database.UpdateOne(context.TODO(), bson.M{"id": "1"}, update); err != nil {
+	if _, err := collection.UpdateOne(context.TODO(), bson.M{"id": "1"}, update); err != nil {
 		log.Println(err.Error())
 	}
 
@@ -51,9 +50,9 @@ func (repo *accountRepository) MakeDepositDb(conta *entity.Account) *entity.Acco
 }
 
 func (repo *accountRepository) CreateAccount(conta *entity.Account) *entity.Account { //Criar conta no banco de dados
-	database := database.MongoDB.Database("Banco-Atlas").Collection("userAccount")
+	collection := database.GetCollection(repo.CollectionName)
 
-	if _, err := database.InsertOne(context.TODO(), conta); err != nil {
+	if _, err := collection.InsertOne(context.TODO(), conta); err != nil {
 		log.Println(err.Error())
 	}
 
@@ -61,13 +60,15 @@ func (repo *accountRepository) CreateAccount(conta *entity.Account) *entity.Acco
 }
 
 func (repo *accountRepository) MakeWithdrawDb(conta *entity.Account) *entity.Account {
-	database := database.MongoDB.Database("Banco-Atlas").Collection("userAccount")
+	collection := database.GetCollection(repo.CollectionName)
 
 	update := bson.M{
-		"$set": bson.M{"balance": conta.Balance},
+		"$set": bson.M{
+			"balance": conta.Balance,
+		},
 	}
 
-	if _, err := database.UpdateOne(context.TODO(), bson.M{"id": "1"}, update); err != nil {
+	if _, err := collection.UpdateOne(context.TODO(), bson.M{"id": "1"}, update); err != nil {
 		log.Println(err.Error())
 	}
 

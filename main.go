@@ -14,10 +14,7 @@ func main() {
 	api := fiber.New()
 
 	routes.HandleRoutes(api)
-	err := api.Listen(":3000")
-	if err != nil {
+	if err := api.Listen(":3000"); err != nil {
 		log.Println(err.Error())
 	}
 }
-
-
