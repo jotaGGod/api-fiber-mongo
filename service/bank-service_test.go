@@ -8,6 +8,11 @@ import (
 	"testing"
 )
 
+func TestMain(m *testing.M) {
+	repository.AccountRepository = &mock.MAccountRepository{}
+	m.Run()
+}
+
 func TestGetAccounts(t *testing.T) {
 	tests := []struct {
 		name string
@@ -24,7 +29,6 @@ func TestGetAccounts(t *testing.T) {
 			},
 		},
 	}
-	repository.AccountRepository = mock.MockAccountRepository{}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			accounts := GetAccounts()
@@ -49,7 +53,6 @@ func TestMakeDeposits(t *testing.T) {
 			},
 		},
 	}
-	repository.AccountRepository = mock.MockAccountRepository{}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			resultAccount := MakeDeposits(tt.args)
@@ -79,8 +82,6 @@ func TestCreateAccounts(t *testing.T) {
 			},
 		},
 	}
-
-	repository.AccountRepository = mock.MockAccountRepository{}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			resultAccount := CreateAccounts(tt.args)
@@ -106,7 +107,6 @@ func TestMakeWithdraw(t *testing.T) {
 			},
 		},
 	}
-	repository.AccountRepository = mock.MockAccountRepository{}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			resultAccount := MakeWithdraw(tt.args)
@@ -114,4 +114,8 @@ func TestMakeWithdraw(t *testing.T) {
 			assert.Equal(t, tt.want, resultAccount)
 		})
 	}
+}
+
+func TestCalculo(t *testing.T) {
+	// TODO implementar teste para lógica de calculo das notas
 }

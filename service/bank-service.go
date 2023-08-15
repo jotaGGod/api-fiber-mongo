@@ -6,19 +6,16 @@ import (
 )
 
 func GetAccounts() []entity.Account {
-	return []entity.Account{repository.AccountRepository.GetAccountDb()}
+	return []entity.Account{*repository.AccountRepository.GetAccountDb("1")}
 }
 
 func MakeDeposits(num int) *entity.Account {
+	conta := repository.AccountRepository.GetAccountDb("1")
 
-	contas := GetAccounts()
+	conta.Balance += num
+	repository.AccountRepository.MakeDepositDb(conta)
 
-	for _, conta := range contas {
-		conta.Balance += num
-		repository.AccountRepository.MakeDepositDb(&conta)
-		return &conta
-	}
-	return nil
+	return conta
 }
 
 func CreateAccounts(conta *entity.Account) *entity.Account {
@@ -26,7 +23,7 @@ func CreateAccounts(conta *entity.Account) *entity.Account {
 }
 
 func MakeWithdraw(value int) *entity.Account {
-
+	// qual o motivo da função calculo estar sendo chamada aqui sendo q seu retorno n está sendo utilizado?
 	Calculo(value)
 
 	contas := GetAccounts()
@@ -41,8 +38,10 @@ func MakeWithdraw(value int) *entity.Account {
 }
 
 func Calculo(valor int) map[int]int {
-	var NotasTotais = map[int]int{200: 0, 100: 0, 50: 0, 20: 0, 10: 0, 5: 0, 2: 0} //logica do retorno do valor de notas a ser sacado
+	var NotasTotais = map[int]int{200: 0, 100: 0, 50: 0, 20: 0, 10: 0, 5: 0, 2: 0}
 	var notasReais = []int{200, 100, 50, 20, 10, 5, 2}
+	// será q essa lógica n poderia ser melhorada em questão de performance??
+	// dica: busque debugar e entender passo a passo para idenificar possíveis melhorias.
 	for _, nota := range notasReais {
 		if valor-nota != 1 && valor-nota != 3 {
 			for valor-nota >= 0 {
