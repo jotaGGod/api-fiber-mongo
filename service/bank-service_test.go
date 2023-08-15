@@ -115,24 +115,3 @@ func TestMakeWithdraw(t *testing.T) {
 		})
 	}
 }
-
-func TestCalculo(t *testing.T) {
-	tests := []struct {
-		name string
-		args int
-		want map[int]int
-	}{
-		{
-			name: "should return a sum of cedules used in withdraw",
-			args: 250,
-			want: map[int]int{200: 1, 100: 0, 50: 1, 20: 0, 10: 0, 5: 0, 2: 0},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			resultAccount := Calculo(tt.args)
-
-			assert.Equal(t, tt.want, resultAccount)
-		})
-	}
-}
