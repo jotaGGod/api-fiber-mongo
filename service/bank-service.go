@@ -52,3 +52,5 @@ func Calculo(valor int) map[int]int {
 	}
 	return NotasTotais
 }
+
+// criar método getAccountByid
