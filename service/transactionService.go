@@ -6,20 +6,16 @@ import (
 )
 
 func GetAccounts() []entity.Account {
-	return []entity.Account{*repository.AccountRepository.GetAccountDb("1")}
+	return []entity.Account{*repository.TransactionRepository.GetAccountDb("1")}
 }
 
 func MakeDeposits(num int) *entity.Account {
-	conta := repository.AccountRepository.GetAccountDb("1")
+	conta := repository.TransactionRepository.GetAccountDb("1")
 
 	conta.Balance += num
-	repository.AccountRepository.MakeDepositDb(conta)
+	repository.TransactionRepository.MakeDepositDb(conta)
 
 	return conta
-}
-
-func CreateAccounts(conta *entity.Account) *entity.Account {
-	return repository.AccountRepository.CreateAccount(conta)
 }
 
 func MakeWithdraw(value int) *entity.Account {
@@ -30,7 +26,7 @@ func MakeWithdraw(value int) *entity.Account {
 
 	for _, conta := range contas {
 		conta.Balance -= value
-		repository.AccountRepository.MakeWithdrawDb(&conta)
+		repository.TransactionRepository.MakeWithdrawDb(&conta)
 		return &conta
 	}
 

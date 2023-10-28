@@ -6,9 +6,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func HandleRoutes(api *fiber.App) {
+func HandleTransactionRoutes(api *fiber.App) {
 	api.Add(fiber.MethodGet, "/account", controller.GetAccount)
 	api.Add(fiber.MethodPost, "/account/:balance", controller.DepositAmount)
 	api.Add(fiber.MethodDelete, "/account/:balance", controller.SaqueAmount)
-	api.Add(fiber.MethodPost, "/account", controller.PostAccount)
 }

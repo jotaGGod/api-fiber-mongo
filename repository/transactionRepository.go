@@ -9,20 +9,19 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-var AccountRepository IAccountRepository = &accountRepository{CollectionName: "userAccount"}
+var TransactionRepository ITransactionRepository = &transactionRepository{CollectionName: "userAccount"}
 
-type IAccountRepository interface {
+type ITransactionRepository interface {
 	GetAccountDb(id string) *entity.Account
 	MakeDepositDb(conta *entity.Account) *entity.Account
-	CreateAccount(conta *entity.Account) *entity.Account
 	MakeWithdrawDb(conta *entity.Account) *entity.Account
 }
 
-type accountRepository struct {
+type transactionRepository struct {
 	CollectionName string
 }
 
-func (repo *accountRepository) GetAccountDb(id string) *entity.Account {
+func (repo *transactionRepository) GetAccountDb(id string) *entity.Account {
 	collection := database.GetCollection(repo.CollectionName)
 
 	var conta entity.Account
@@ -35,7 +34,7 @@ func (repo *accountRepository) GetAccountDb(id string) *entity.Account {
 	return &conta
 }
 
-func (repo *accountRepository) MakeDepositDb(conta *entity.Account) *entity.Account { //Realiza a alteração e realização de depósito no db
+func (repo *transactionRepository) MakeDepositDb(conta *entity.Account) *entity.Account { //Realiza a alteração e realização de depósito no db
 	collection := database.GetCollection(repo.CollectionName)
 
 	update := bson.M{
@@ -49,17 +48,7 @@ func (repo *accountRepository) MakeDepositDb(conta *entity.Account) *entity.Acco
 	return conta
 }
 
-func (repo *accountRepository) CreateAccount(conta *entity.Account) *entity.Account { //Criar conta no banco de dados
-	collection := database.GetCollection(repo.CollectionName)
-
-	if _, err := collection.InsertOne(context.TODO(), conta); err != nil {
-		log.Println(err.Error())
-	}
-
-	return conta
-}
-
-func (repo *accountRepository) MakeWithdrawDb(conta *entity.Account) *entity.Account {
+func (repo *transactionRepository) MakeWithdrawDb(conta *entity.Account) *entity.Account {
 	collection := database.GetCollection(repo.CollectionName)
 
 	update := bson.M{

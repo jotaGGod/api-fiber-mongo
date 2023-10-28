@@ -13,7 +13,8 @@ func main() {
 
 	api := fiber.New()
 
-	routes.HandleRoutes(api)
+	routes.HandleTransactionRoutes(api)
+	routes.HandleAccountRoutes(api)
 	if err := api.Listen(":3000"); err != nil {
 		log.Println(err.Error())
 	}

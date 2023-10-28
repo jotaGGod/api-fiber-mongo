@@ -10,6 +10,7 @@ import (
 
 func TestMain(m *testing.M) {
 	repository.AccountRepository = &mock.MAccountRepository{}
+	repository.TransactionRepository = &mock.MAccountRepository{}
 	m.Run()
 }
 

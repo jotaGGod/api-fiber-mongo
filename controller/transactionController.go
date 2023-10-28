@@ -4,7 +4,6 @@ import (
 	"api-fiber-mongo/entity"
 	"api-fiber-mongo/service"
 	"fmt"
-	"log"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
@@ -33,16 +32,6 @@ func DepositAmount(c *fiber.Ctx) error { //Controller deposit
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "depósito realizado com sucesso",
 	})
-}
-
-func PostAccount(c *fiber.Ctx) error { //Pega o corpo da requisição, passa pra objeto e executa a função, criando uma conta
-	var conta entity.Account
-	if err := c.BodyParser(&conta); err != nil {
-		log.Println(err.Error())
-	}
-	service.CreateAccounts(&conta)
-
-	return c.SendStatus(fiber.StatusCreated)
 }
 
 func SaqueAmount(c *fiber.Ctx) error { //Controller que realiza o saque
